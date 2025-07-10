@@ -8,7 +8,7 @@ import NavBar from './components/global/NavBar';
 const App = () => {
   const [currentTheme, setCurrentTheme] = useState('spiderman');
   const [theme, setTheme] = useState<Theme>(themes[currentTheme]);
-  const[coverImage,setCoverImage]=useState("")
+  const [coverImage, setCoverImage] = useState('');
   const [openTheme, setOpenTheme] = useState<boolean>(false);
 
   const [songs, setSongs] = useState<{ name: string; path: string }[]>([]);
@@ -28,7 +28,9 @@ const App = () => {
   useEffect(() => {
     setTheme(themes[currentTheme]);
     console.log('current theme', themes[currentTheme]);
-    const randomIndex = Math.floor(Math.random() * themes[currentTheme].coverImages.length)
+    const randomIndex = Math.floor(
+      Math.random() * themes[currentTheme].coverImages.length
+    );
     setCoverImage(themes[currentTheme].coverImages[randomIndex]);
     useTheme(currentTheme);
   }, [currentTheme]);
@@ -47,12 +49,10 @@ const App = () => {
         <div className="  h-[658px] flex flex-col justify-between ">
           <div className=" flex h-full justify-between w-full">
             <div className="w-full   flex justify-center items-center">
-              <img className='w-[60%] h-[50%]' src={coverImage} />
+              <img className="w-[60%] h-[50%]" src={coverImage} />
+            </div>
 
-              </div>
-
-
-            <div className='flex flex-col m-2 w-full'>
+            <div className="flex flex-col m-2 w-full">
               <button
                 onClick={handleLoadMusic}
                 className="bg-[var(--primary)] text-white p-2 rounded"

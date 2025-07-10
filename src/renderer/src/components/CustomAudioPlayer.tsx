@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { FaPlay } from 'react-icons/fa';
-import { FaPause } from "react-icons/fa";
+import { FaPause } from 'react-icons/fa';
 
 const CustomAudioPlayer = ({ src }: { src: string }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
