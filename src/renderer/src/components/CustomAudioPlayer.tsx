@@ -1,8 +1,22 @@
 import { useRef, useState, useEffect } from 'react';
 import { FaPlay } from 'react-icons/fa';
 import { FaPause } from 'react-icons/fa';
-
-const CustomAudioPlayer = ({ src }: { src: string }) => {
+import { FaShuffle } from 'react-icons/fa6';
+import { BiSkipNext } from 'react-icons/bi';
+import { BiSkipPrevious } from 'react-icons/bi';
+import { SongType } from '@renderer/types/song';
+import { HandlePlayNext, HandlePlayPrev } from '@renderer/types/functions';
+const CustomAudioPlayer = ({
+  currentSong,
+  songs,
+  playNext,
+  playPrev,
+}: {
+  currentSong: SongType;
+  songs: SongType[];
+  playNext: HandlePlayNext;
+  playPrev: HandlePlayPrev;
+}) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -20,7 +34,7 @@ const CustomAudioPlayer = ({ src }: { src: string }) => {
       setProgress(0);
       audioRef.current.play().catch(() => setIsPlaying(false));
     }
-  }, [src]);
+  }, [currentSong.path]);
 
   const handleTimeUpdate = () => {
     if (!audioRef.current) return;
@@ -55,7 +69,7 @@ const CustomAudioPlayer = ({ src }: { src: string }) => {
 
   return (
     <div className="bg-transparent text-white p-4 rounded-xl w-full  ">
-      <audio ref={audioRef} src={src} />
+      <audio ref={audioRef} src={currentSong.path} />
 
       <div className="flex items-center flex-col">
         <div className="w-full">
@@ -69,13 +83,24 @@ const CustomAudioPlayer = ({ src }: { src: string }) => {
           />
         </div>
 
-        <div>
-          <button
-            onClick={togglePlay}
-            className="text-[var(--primary)] px-4 py-2 rounded cursor-pointer transition"
-          >
-            {isPlaying ? <FaPause /> : <FaPlay />}
-          </button>
+        <div className="flex text-[var(--primary)] justify-between items-center w-full">
+          <div className="flex items-center">
+            <div className="p-2">
+              <BiSkipPrevious size={30} onClick={playPrev} />
+            </div>
+            <div
+              onClick={togglePlay}
+              className=" py-2 rounded cursor-pointer transition"
+            >
+              {isPlaying ? <FaPause size={28} /> : <FaPlay size={28} />}
+            </div>
+            <div className="p-2" onClick={playNext}>
+              <BiSkipNext size={30} />
+            </div>
+          </div>
+          <div className="p-2">
+            <FaShuffle size={20} />
+          </div>
         </div>
       </div>
     </div>
