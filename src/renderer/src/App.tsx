@@ -6,7 +6,12 @@ import { themes } from './assets/themes';
 import { Theme } from './types/theme';
 import NavBar from './components/global/NavBar';
 import { SongType } from './types/song';
+import { TbLayoutSidebarLeftExpandFilled } from 'react-icons/tb';
+import { TbLayoutSidebarLeftCollapseFilled } from 'react-icons/tb';
+import { FaRegFolderOpen } from 'react-icons/fa6';
+import { FaFolder } from 'react-icons/fa';
 import { getRandomWithOneExclusion } from './utils/functions';
+import SongList from './components/SongList';
 const App = () => {
   const [currentTheme, setCurrentTheme] = useState('spiderman');
   const [theme, setTheme] = useState<Theme>(themes[currentTheme]);
@@ -14,12 +19,16 @@ const App = () => {
   const [openTheme, setOpenTheme] = useState<boolean>(false);
   const [currentSong, setCurrentSong] = useState<SongType>();
   const [songs, setSongs] = useState<SongType[]>([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const handleLoadMusic = async () => {
     const result = await window.electronAPI.pickMusicFolder();
     setSongs(result);
   };
   const ToggleSelectTheme = () => {
     setOpenTheme(prev => !prev);
+  };
+  const toggleSidebar = () => {
+    setIsSidebarOpen(prev => !prev);
   };
   const handlePlayShuffle = () => {
     if (currentSong) {
@@ -55,7 +64,6 @@ const App = () => {
 
   useEffect(() => {
     setTheme(themes[currentTheme]);
-    console.log('current theme', themes[currentTheme]);
     const randomIndex = Math.floor(
       Math.random() * themes[currentTheme].coverImages.length
     );
@@ -81,25 +89,51 @@ const App = () => {
             </div>
 
             <div className="flex flex-col m-2 w-full">
-              <button
-                onClick={handleLoadMusic}
-                className="bg-[var(--primary)]  p-2 rounded"
-              >
-                Load Music
-              </button>
-
-              <div className="mt-4 bg-[var(--bg)]/70">
-                {songs.map((song, idx) => (
+              <div className="flex justify-between">
+                {isSidebarOpen ? (
                   <div
-                    key={idx}
-                    className={`${currentSong?.name === song.name ? 'text-[var(--secondary)]' : 'text-red'} cursor-pointer h-[40px] truncate  p-2`}
-                    onClick={() => {
-                      setCurrentSong(song);
-                    }}
+                    onClick={handleLoadMusic}
+                    className="bg-[var(--bg)]  p-2 rounded"
                   >
-                    {song.name}
+                    <div className="flex items-center">
+                      <FaRegFolderOpen />
+                      <div className="px-2">Add folder</div>
+                    </div>
                   </div>
-                ))}
+                ) : (
+                  <div></div>
+                )}
+
+                <div onClick={toggleSidebar} className="cursor-pointer">
+                  {isSidebarOpen ? (
+                    <TbLayoutSidebarLeftExpandFilled size={30} />
+                  ) : (
+                    <TbLayoutSidebarLeftCollapseFilled size={30} />
+                  )}
+                </div>
+              </div>
+              <div className="mt-4 bg-[var(--bg)]/70 rounded">
+                {isSidebarOpen ? (
+                  songs.length !== 0 ? (
+                    <SongList
+                      songs={songs}
+                      setCurrentSong={setCurrentSong}
+                      currentSong={currentSong}
+                    />
+                  ) : (
+                    <div className="bg-black/70 w-full  flex justify-center items-center h-[500px]">
+                      <div className="flex flex-col justify-center ">
+                        <FaFolder size={80} onClick={handleLoadMusic} />
+                        <div>
+                          Select your
+                          <br /> Music folder
+                        </div>
+                      </div>
+                    </div>
+                  )
+                ) : (
+                  ''
+                )}
               </div>
             </div>
           </div>
