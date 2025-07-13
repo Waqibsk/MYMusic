@@ -6,6 +6,7 @@ import { themes } from './assets/themes';
 import { Theme } from './types/theme';
 import NavBar from './components/global/NavBar';
 import { SongType } from './types/song';
+import { getRandomWithOneExclusion } from './utils/functions';
 const App = () => {
   const [currentTheme, setCurrentTheme] = useState('spiderman');
   const [theme, setTheme] = useState<Theme>(themes[currentTheme]);
@@ -13,13 +14,23 @@ const App = () => {
   const [openTheme, setOpenTheme] = useState<boolean>(false);
   const [currentSong, setCurrentSong] = useState<SongType>();
   const [songs, setSongs] = useState<SongType[]>([]);
-  const [songSrc, setSongSrc] = useState<string>('');
   const handleLoadMusic = async () => {
     const result = await window.electronAPI.pickMusicFolder();
     setSongs(result);
   };
   const ToggleSelectTheme = () => {
     setOpenTheme(prev => !prev);
+  };
+  const handlePlayShuffle = () => {
+    if (currentSong) {
+      const currentSongIndex = songs.indexOf(currentSong);
+      const randomIndex = getRandomWithOneExclusion(
+        songs.length,
+        currentSongIndex
+      );
+      console.log('random song', randomIndex);
+      setCurrentSong(songs[randomIndex]);
+    }
   };
   const handlePlayNext = () => {
     if (currentSong) {
@@ -41,11 +52,7 @@ const App = () => {
       }
     }
   };
-  const playSong = (path: string) => {
-    const normalizedPath = path.replace(/\\/g, '/');
-    const fileUrl = encodeURI(`file:///${normalizedPath}`);
-    setSongSrc(fileUrl);
-  };
+
   useEffect(() => {
     setTheme(themes[currentTheme]);
     console.log('current theme', themes[currentTheme]);
@@ -88,7 +95,6 @@ const App = () => {
                     className={`${currentSong?.name === song.name ? 'text-[var(--secondary)]' : 'text-red'} cursor-pointer h-[40px] truncate  p-2`}
                     onClick={() => {
                       setCurrentSong(song);
-                      playSong(song.path);
                     }}
                   >
                     {song.name}
@@ -104,6 +110,7 @@ const App = () => {
                 songs={songs}
                 playNext={handlePlayNext}
                 playPrev={handlePlayPrev}
+                playShuffle={handlePlayShuffle}
               />
             ) : (
               <div></div>
