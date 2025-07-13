@@ -81,7 +81,7 @@ const App = () => {
                 Load Music
               </button>
 
-              <div className="mt-4">
+              <div className="mt-4 bg-[var(--bg)]/70">
                 {songs.map((song, idx) => (
                   <div
                     key={idx}
@@ -97,7 +97,7 @@ const App = () => {
               </div>
             </div>
           </div>
-          <div className="bg-[var(--bg)]">
+          <div className="bg-[var(--bg)]/80">
             {currentSong ? (
               <CustomAudioPlayer
                 currentSong={currentSong}

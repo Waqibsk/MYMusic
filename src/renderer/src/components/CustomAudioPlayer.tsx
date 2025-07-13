@@ -5,6 +5,9 @@ import { FaShuffle } from 'react-icons/fa6';
 import { BiSkipNext } from 'react-icons/bi';
 import { BiSkipPrevious } from 'react-icons/bi';
 import { SongType } from '@renderer/types/song';
+import { RxLoop } from "react-icons/rx";
+import { GoUnmute } from "react-icons/go";
+import { GoMute } from "react-icons/go";
 import { HandlePlayNext, HandlePlayPrev } from '@renderer/types/functions';
 const CustomAudioPlayer = ({
   currentSong,
@@ -19,7 +22,18 @@ const CustomAudioPlayer = ({
 }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const[shuffle,setShuffle]=useState<boolean>(false)
+  const [looping,setLooping]=useState<boolean>(false)
+  const [isMute, setIsMute] = useState<boolean>(false)
   const [progress, setProgress] = useState(0);
+  const toggleLooping = () => {
+    setLooping((prev) => !prev);
+ 
+ }
+  const toggleMute = () => {
+    setIsMute((prev) => !prev);
+
+ }
   const togglePlay = () => {
     if (!audioRef.current) return;
     if (isPlaying) {
@@ -40,7 +54,9 @@ const CustomAudioPlayer = ({
     if (!audioRef.current) return;
     const current = audioRef.current.currentTime;
     const duration = audioRef.current.duration;
+    
     setProgress((current / duration) * 100 || 0);
+   
   };
 
   const handleProgressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +72,9 @@ const CustomAudioPlayer = ({
 
     const onPlay = () => setIsPlaying(true);
     const onPause = () => setIsPlaying(false);
+    const onEnd = () => {
+      
+    }
     audio.addEventListener('play', onPlay);
     audio.addEventListener('pause', onPause);
     audio.addEventListener('timeupdate', handleTimeUpdate);
@@ -69,7 +88,7 @@ const CustomAudioPlayer = ({
 
   return (
     <div className="bg-transparent text-white p-4 rounded-xl w-full  ">
-      <audio ref={audioRef} src={currentSong.path} />
+      <audio ref={audioRef} src={currentSong.path} loop={looping} muted={ isMute} />
 
       <div className="flex items-center flex-col">
         <div className="w-full">
@@ -85,23 +104,32 @@ const CustomAudioPlayer = ({
 
         <div className="flex text-[var(--primary)] justify-between items-center w-full">
           <div className="flex items-center">
-            <div className="p-2">
+            <div className="p-2 cursor-pointer">
               <BiSkipPrevious size={30} onClick={playPrev} />
             </div>
             <div
               onClick={togglePlay}
-              className=" py-2 rounded cursor-pointer transition"
+              className=" p-2 cursor-pointer transition"
             >
               {isPlaying ? <FaPause size={28} /> : <FaPlay size={28} />}
             </div>
-            <div className="p-2" onClick={playNext}>
+            <div className="p-2 cursor-pointer" onClick={playNext}>
               <BiSkipNext size={30} />
             </div>
+<div className="p-2 cursor-pointer" onClick={toggleMute}>
+     {isMute? <GoMute size={20} />:<GoUnmute size={20}/>
+}                </div>
+ 
           </div>
-          <div className="p-2">
+            <div className='flex items-center'>
+         <div className="p-2 cursor-pointer">
             <FaShuffle size={20} />
           </div>
-        </div>
+            <div className={`${looping?"bg-[var(--text)]/10 rounded-xl ": "text-[var(--primary)]"} p-2 cursor-pointer`} onClick={toggleLooping} >
+              <RxLoop size={20}/>
+            </div> 
+          </div>
+       </div>
       </div>
     </div>
   );
