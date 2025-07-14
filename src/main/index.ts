@@ -82,7 +82,6 @@ ipcMain.handle('pick-music-folder', async () => {
       name: file,
       path: path.join(folderPath, file),
     }));
-  console.log('hi this is the fies ', files);
 
   return files;
 });

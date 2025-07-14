@@ -8,7 +8,7 @@ export default function SelectTheme({ setTheme }: { setTheme: SetTheme }) {
     }
   };
   return (
-    <div className="bg-black w-[50%] text-white fixed z-50">
+    <div className="bg-black/90 w-[50%] text-white fixed z-50">
       <div>
         {Object.entries(themes).map(([key, theme]) => (
           <div key={key}>

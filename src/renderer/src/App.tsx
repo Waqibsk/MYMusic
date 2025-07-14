@@ -37,7 +37,6 @@ const App = () => {
         songs.length,
         currentSongIndex
       );
-      console.log('random song', randomIndex);
       setCurrentSong(songs[randomIndex]);
     }
   };
@@ -88,7 +87,7 @@ const App = () => {
               {/* <img className="w-[50%]" src={coverImage} /> */}
             </div>
 
-            <div className="flex flex-col m-2 w-full">
+            <div className="flex flex-col m-2 w-full relative">
               <div className="flex justify-between">
                 {isSidebarOpen ? (
                   <div
@@ -104,7 +103,10 @@ const App = () => {
                   <div></div>
                 )}
 
-                <div onClick={toggleSidebar} className="cursor-pointer">
+                <div
+                  onClick={toggleSidebar}
+                  className="cursor-pointer flex items-center  "
+                >
                   {isSidebarOpen ? (
                     <TbLayoutSidebarLeftExpandFilled size={30} />
                   ) : (
@@ -112,7 +114,13 @@ const App = () => {
                   )}
                 </div>
               </div>
-              <div className="mt-4 bg-[var(--bg)]/70 rounded">
+              <div
+                // className="mt-4 bg-[var(--bg)]/70 rounded transition delay-150 duration-300"
+
+                className={`absolute top-10 right-0 h-[400px] w-full mt-2  bg-[var(--bg)]/70 rounded transition-transform duration-400 ease-in-out 
+    ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'}
+  `}
+              >
                 {isSidebarOpen ? (
                   songs.length !== 0 ? (
                     <SongList

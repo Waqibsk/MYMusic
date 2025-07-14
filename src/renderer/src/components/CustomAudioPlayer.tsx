@@ -140,6 +140,7 @@ const CustomAudioPlayer = ({
               {isMute ? <GoMute size={20} /> : <GoUnmute size={20} />}{' '}
             </div>
           </div>
+          <div className="flex items-center truncate">{currentSong.name}</div>
           <div className="flex items-center">
             <div
               className={`${shuffle ? ' bg-[var(--text)]/10 rounded-xl ' : ''}p-2 cursor-pointer`}
