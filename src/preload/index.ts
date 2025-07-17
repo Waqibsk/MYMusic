@@ -14,6 +14,10 @@ if (process.contextIsolated) {
     contextBridge.exposeInMainWorld('electronAPI', {
       pickMusicFolder: () => ipcRenderer.invoke('pick-music-folder'),
     });
+    contextBridge.exposeInMainWorld('likeAPI', {
+      likeSong: (song) => ipcRenderer.invoke('like-song', song),
+      getLikedSongs: () => ipcRenderer.invoke('get-liked-songs'),
+    });
   } catch (error) {
     console.error(error);
   }

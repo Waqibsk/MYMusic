@@ -19,10 +19,15 @@ const App = () => {
   const [openTheme, setOpenTheme] = useState<boolean>(false);
   const [currentSong, setCurrentSong] = useState<SongType>();
   const [songs, setSongs] = useState<SongType[]>([]);
+  const [favSongs, setFavSongs] = useState<SongType[]>([]);
+  
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const handleLoadMusic = async () => {
-    const result = await window.electronAPI.pickMusicFolder();
-    setSongs(result);
+
+    const  allSongs= await window.electronAPI.pickMusicFolder();
+    const favouriteSongs = await window.likeAPI.getLikedSongs();
+    setFavSongs(favouriteSongs);
+    setSongs(allSongs);
   };
   const ToggleSelectTheme = () => {
     setOpenTheme(prev => !prev);

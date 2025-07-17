@@ -11,7 +11,6 @@ export default function NavBar({
         Themes
       </div>
       <div className="p-2">Playlists</div>
-      <div className="p-2">Favourites</div>
     </div>
   );
 }

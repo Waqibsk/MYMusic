@@ -4,6 +4,10 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
 import fs from 'fs';
 import path from 'path';
+import { getLikedSongs, saveLikedSongs } from './utils/like';
+
+const likedSongsPath = path.join(app.getPath('userData'), 'likedSongs.json');
+
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -51,6 +55,14 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window);
   });
+  if (!fs.existsSync(likedSongsPath)) {
+    fs.writeFileSync(likedSongsPath, '[]');
+    console.log("file created ",likedSongsPath);
+  }
+  else {
+    console.log("file alreaady exists ",likedSongsPath);
+
+  }
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'));
@@ -84,6 +96,21 @@ ipcMain.handle('pick-music-folder', async () => {
     }));
 
   return files;
+});
+ipcMain.handle('like-song', async (event, song) => {
+  const likedSongsList =  await getLikedSongs(likedSongsPath);
+  const songIndex = likedSongsList.findIndex(s => s.path === song.path);
+  if (songIndex !== -1) {
+    likedSongsList.splice(songIndex, 1);
+  } else {
+    likedSongsList.push(song);
+  }
+  saveLikedSongs(likedSongsList, likedSongsPath);
+  return likedSongsList;
+});
+ipcMain.handle('get-liked-songs', async () => {
+  
+  return getLikedSongs(likedSongsPath);
 });
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
