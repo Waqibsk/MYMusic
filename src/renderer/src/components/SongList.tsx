@@ -49,10 +49,13 @@ export default function SongList({
         {(songType === "fav" ? favSongs : songs).map((song, idx) => (
           <div key={song.path} className="group flex justify-between items-center hover:bg-[var(--bg)] hover:cursor-pointer">
             <div
-              className={`${currentSong?.name === song.name ? 'text-[var(--secondary)]' : 'text-red'} flex items-center cursor-pointer h-[40px] truncate w-[40%] p-5 my-2 `}
+              className={`${currentSong?.name === song.name ? 'text-[var(--secondary)]' : 'text-red'} flex items-center cursor-pointer h-[40px]  w-[40%]   p-5 my-2 `}
               onClick={() => setCurrentSong(song)}
             >
+              <div className='w-full truncate'>
               {song.name}
+              </div>
+
             </div>
             <div className="hidden group-hover:flex w-[100px] justify-evenly items-center  p-2">
               <LikeButton song={song} likedSongs={likedSongs} refreshLikedSongs={refreshLikedSongs} />
