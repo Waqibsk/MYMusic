@@ -10,7 +10,6 @@ export default function NavBar({
       <div onClick={ToggleSelectTheme} className="cursor-pointer p-2">
         Themes
       </div>
-      <div className="p-2">Playlists</div>
     </div>
   );
 }

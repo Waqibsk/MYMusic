@@ -18,5 +18,9 @@ export default function LikeButton({
     refreshLikedSongs();
   };
 
-  return <div onClick={toggleLike}>{isliked ? <FaHeart size={19} /> : <FaRegHeart />}</div>;
+  return (
+    <div onClick={toggleLike}>
+      {isliked ? <FaHeart size={19} /> : <FaRegHeart />}
+    </div>
+  );
 }

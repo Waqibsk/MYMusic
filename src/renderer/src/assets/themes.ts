@@ -4,7 +4,7 @@ export const themes: Record<string, Theme> = {
     name: 'Batman',
     coverImages: ['https://wallpaperaccess.com/full/88382.jpg'],
     bgImage:
-      "url('https://imgs.search.brave.com/FgHAJvbzSfw8I5gJkMoMW7hdJKSDRMd7D1lOgPtO1Gw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJiYXQuY29t/L2ltZy85Njk5MDY1/LWJhdG1hbi1taW5p/bWFsLWFydHdvcmst/d2FsbHBhcGVyLmpw/Zw')",
+      "url('https://images8.alphacoders.com/675/thumb-1920-675449.jpg')",
 
     '--primary': '#ffcc00',
     '--bg': '#121212',
@@ -33,12 +33,22 @@ export const themes: Record<string, Theme> = {
   },
   tokyo_ghoul: {
     name: 'tokyo_ghoul',
-    bgImage:
-      'url(https://imgs.search.brave.com/cF5n246tXJ2duihxYssmQ8xfVnaPyPnlMRsUaRwf3uc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJhY2Nlc3Mu/Y29tL2Z1bGwvNDQw/LmpwZw)',
+    bgImage: 'url(https://wallpapercave.com/wp/wp3534302.jpg)',
     coverImages: ['https://wallpaperaccess.com/full/88382.jpg'],
     '--primary': '#C00000',
     '--bg': '#0A0A0A',
     '--text': '#F0F0F0',
     '--secondary': '#4A4A4A',
+  },
+  onepunchmanManga: {
+    name: 'One Punch Man (Manga Style)',
+    coverImages: [
+      'https://i.pinimg.com/originals/8d/ed/89/8ded8919cbad6bd14dcb1a2282c593ce.jpg',
+    ],
+    bgImage: "url('https://wallpaperaccess.com/full/4500258.png')",
+    '--primary': '#ffffff',
+    '--bg': '#121212',
+    '--text': '#ffcc00',
+    '--secondary': '#cc0000',
   },
 };

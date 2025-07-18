@@ -12,6 +12,7 @@ import { FaRegFolderOpen } from 'react-icons/fa6';
 import { FaFolder } from 'react-icons/fa';
 import { getRandomWithOneExclusion } from './utils/functions';
 import SongList from './components/SongList';
+import CreatePlaylist from './components/util/CreatePlaylist';
 const App = () => {
   const [currentTheme, setCurrentTheme] = useState('spiderman');
   const [theme, setTheme] = useState<Theme>(themes[currentTheme]);
@@ -20,11 +21,10 @@ const App = () => {
   const [currentSong, setCurrentSong] = useState<SongType>();
   const [songs, setSongs] = useState<SongType[]>([]);
   const [favSongs, setFavSongs] = useState<SongType[]>([]);
-  
+
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const handleLoadMusic = async () => {
-
-    const  allSongs= await window.electronAPI.pickMusicFolder();
+    const allSongs = await window.electronAPI.pickMusicFolder();
     const favouriteSongs = await window.likeAPI.getLikedSongs();
     setFavSongs(favouriteSongs);
     setSongs(allSongs);
@@ -35,6 +35,7 @@ const App = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(prev => !prev);
   };
+
   const handlePlayShuffle = () => {
     if (currentSong) {
       const currentSongIndex = songs.indexOf(currentSong);
@@ -122,7 +123,7 @@ const App = () => {
               <div
                 // className="mt-4 bg-[var(--bg)]/70 rounded transition delay-150 duration-300"
 
-                className={`absolute top-10 right-0 h-[400px] w-full mt-2  bg-[var(--bg)]/70 rounded transition-transform duration-400 ease-in-out 
+                className={`absolute top-10 right-0 h-[90%] w-full mt-2 overflow-auto  bg-[var(--bg)]/70 rounded-xl transition-transform duration-400 ease-in-out 
     ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'}
   `}
               >

@@ -15,8 +15,19 @@ if (process.contextIsolated) {
       pickMusicFolder: () => ipcRenderer.invoke('pick-music-folder'),
     });
     contextBridge.exposeInMainWorld('likeAPI', {
-      likeSong: (song) => ipcRenderer.invoke('like-song', song),
+      likeSong: song => ipcRenderer.invoke('like-song', song),
       getLikedSongs: () => ipcRenderer.invoke('get-liked-songs'),
+    });
+    contextBridge.exposeInMainWorld('playlistAPI', {
+      addToPlaylist: (song, playlistName) =>
+        ipcRenderer.invoke('add-to-playlist', song, playlistName),
+      getPlaylists: () => ipcRenderer.invoke('get-playlists'),
+      removeSong: (song, playlistName) =>
+        ipcRenderer.invoke('remove-song', song, playlistName),
+      deletePlaylist: playlistName =>
+        ipcRenderer.invoke('delete-playlist', playlistName),
+      createPlaylist: playlistName =>
+        ipcRenderer.invoke('create-playlist', playlistName),
     });
   } catch (error) {
     console.error(error);

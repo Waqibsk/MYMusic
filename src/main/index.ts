@@ -5,8 +5,12 @@ import icon from '../../resources/icon.png?asset';
 import fs from 'fs';
 import path from 'path';
 import { getLikedSongs, saveLikedSongs } from './utils/like';
+import { getPlaylists, savePlaylists } from './utils/playlist';
+import { error } from 'console';
+import { SongType } from './types/all';
 
 const likedSongsPath = path.join(app.getPath('userData'), 'likedSongs.json');
+const playlistPath = path.join(app.getPath('userData'), 'playlists.json');
 
 function createWindow(): void {
   // Create the browser window.
@@ -57,11 +61,15 @@ app.whenReady().then(() => {
   });
   if (!fs.existsSync(likedSongsPath)) {
     fs.writeFileSync(likedSongsPath, '[]');
-    console.log("file created ",likedSongsPath);
+    console.log('file created to store likedsongs ', likedSongsPath);
+  } else {
+    console.log('file alreaady exists for likedSongs', likedSongsPath);
   }
-  else {
-    console.log("file alreaady exists ",likedSongsPath);
-
+  if (!fs.existsSync(playlistPath)) {
+    fs.writeFileSync(playlistPath, '[]');
+    console.log('file created to store  playlists   ', playlistPath);
+  } else {
+    console.log('file alreaady exists for playlists ', playlistPath);
   }
 
   // IPC test
@@ -97,9 +105,10 @@ ipcMain.handle('pick-music-folder', async () => {
 
   return files;
 });
-ipcMain.handle('like-song', async (event, song) => {
-  const likedSongsList =  await getLikedSongs(likedSongsPath);
+ipcMain.handle('like-song', async (event, song: SongType) => {
+  const likedSongsList = await getLikedSongs(likedSongsPath);
   const songIndex = likedSongsList.findIndex(s => s.path === song.path);
+
   if (songIndex !== -1) {
     likedSongsList.splice(songIndex, 1);
   } else {
@@ -109,8 +118,49 @@ ipcMain.handle('like-song', async (event, song) => {
   return likedSongsList;
 });
 ipcMain.handle('get-liked-songs', async () => {
-  
   return getLikedSongs(likedSongsPath);
+});
+ipcMain.handle('create-playlist', async (event, name: string) => {
+  const playlists = await getPlaylists(playlistPath);
+  if (playlists.some(s => s.name === name)) {
+    throw new Error('Playlist already exists');
+  }
+  playlists.push({ name, songs: [] });
+  savePlaylists(playlists, playlistPath);
+  return playlists;
+});
+ipcMain.handle('get-playlists', async () => {
+  return getPlaylists(playlistPath);
+});
+ipcMain.handle(
+  'add-to-playlist',
+  async (event, song: SongType, ListName: string) => {
+    const playlists = await getPlaylists(playlistPath);
+    const playlist = playlists.find(s => s.name === ListName);
+    if (playlist.songs.some(s => s.path === song.path)) {
+      throw new error('song already exists');
+    }
+    playlist.songs.push(song);
+    savePlaylists(playlists, playlistPath);
+    return playlist;
+  }
+);
+ipcMain.handle(
+  'remove-song',
+  async (event, song: SongType, playlistName: string) => {
+    let playlists = await getPlaylists(playlistPath);
+    const playlist = playlists.find(p => p.name === playlistName);
+    playlist.songs.filter(s => s.path === song.path);
+    savePlaylists(playlists, playlistPath);
+    return playlists;
+  }
+);
+
+ipcMain.handle('delete-playlist', async (event, name: string) => {
+  let playlists = await getPlaylists(playlistPath);
+  const newPlaylist = playlists.filter(p => p.name === name);
+  savePlaylists(newPlaylist, playlistPath);
+  return newPlaylist;
 });
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
