@@ -3,8 +3,7 @@ export const themes: Record<string, Theme> = {
   batman: {
     name: 'Batman',
     coverImages: ['https://wallpaperaccess.com/full/88382.jpg'],
-    bgImage:
-      "url('https://images8.alphacoders.com/675/thumb-1920-675449.jpg')",
+    bgImage: "url('https://images8.alphacoders.com/675/thumb-1920-675449.jpg')",
 
     '--primary': '#ffcc00',
     '--bg': '#121212',

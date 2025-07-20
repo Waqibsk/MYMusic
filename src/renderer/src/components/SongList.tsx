@@ -6,6 +6,10 @@ import { MdPlaylistAddCheck } from 'react-icons/md';
 import { PlaylistType } from '@renderer/types/playlist';
 import { toggleCreatePlaylist } from '@renderer/types/functions';
 import CreatePlaylist from './util/CreatePlaylist';
+import PlaylistPicker from './util/PlaylistPicker';
+import { FaTrash } from "react-icons/fa";
+import { IoIosArrowRoundBack } from "react-icons/io";
+import { IoIosRemoveCircleOutline } from "react-icons/io";
 
 export default function SongList({
   songs,
@@ -19,11 +23,10 @@ export default function SongList({
   const [songType, setSongType] = useState<string>('all');
   const [likedSongs, setLikedSongs] = useState<SongType[]>([]);
   const [playlists, setPlaylists] = useState<PlaylistType[]>([]);
-  const [selectedPlaylist, setSelectedPlaylist] = useState<PlaylistType>({
-    name: '',
-    songs: [],
-  });
+  const [selectedPlaylist, setSelectedPlaylist] = useState<PlaylistType|null>(null);
   const [isCreatingPlaylist, setIsCreatingPlaylist] = useState<boolean>(false);
+  const [addingToPlaylist, setAddingToPlaylist] = useState<boolean>(false);
+  const [songToAddInPlaylist,setSongToAddInPlaylist]=useState<SongType|null>(null)
 
   useEffect(() => {
     const fetchLikedSongs = async () => {
@@ -49,16 +52,35 @@ export default function SongList({
   const refreshPlaylists = async () => {
     const result = await window.playlistAPI.getPlaylists();
     setPlaylists(result);
-  }
+  };
   const toggleCreatePlaylist = () => {
     setIsCreatingPlaylist(prev => !prev);
   };
+  const handleRemoveSongFromPlaylist = async (song: SongType, selectedPlaylist: PlaylistType)=>{
+    const result = await window.playlistAPI.removeSong(song, selectedPlaylist.name);
+    setSelectedPlaylist((prev) => {
+  if (!prev) return prev;
+  return {
+    ...prev,
+    songs: prev.songs.filter(s => s.path !== song.path),
+  };
+});
+
+    refreshPlaylists();
+}
+  const handleDeletePlaylist = async(playlistName: string)=>{
+    const result = await window.playlistAPI.deletePlaylist(playlistName);
+    
+    setPlaylists(result);
+  }
   const favSongs = likedSongs;
 
   return (
-    <div className=" ">
-      <div className={`${isCreatingPlaylist?"absolute":"hidden"} top-50 left-50 "`}>
-        <CreatePlaylist refreshPlaylists={refreshPlaylists} />
+    <div className={`` }>
+      <div
+        className={`${isCreatingPlaylist ? 'absolute' : 'hidden'} top-40 left-100 "`}
+      >
+        <CreatePlaylist refreshPlaylists={refreshPlaylists} setIsCreatingPlaylist={setIsCreatingPlaylist } />
       </div>
       <div className="flex items-center">
         <div
@@ -87,22 +109,20 @@ export default function SongList({
           playlists.length === 0 ? (
             <div>
               <div>No playlists</div>
+                <div onClick={toggleCreatePlaylist} className="bg-black">
+                create new
+              </div>
             </div>
-          ) : (
-            <div>
-              {playlists.map((playlist, idx) => (
-                <div
-                  key={playlist.name}
-                >{playlist.name}</div>
-              ))}
-              <div onClick={toggleCreatePlaylist} className='bg-black'>create new</div>
-            </div>
-          )
-        ) : (
-          (songType === 'fav' ? favSongs : songs).map((song, idx) => (
+          ) : selectedPlaylist ?
+           <div className='flex'>
+<div className='cursor-pointer'>
+<IoIosArrowRoundBack size={30} onClick={()=>{setSelectedPlaylist(null)}} />
+</div>
+                <div>
+                  {selectedPlaylist.songs.map((song, idx) => (
             <div
               key={song.path}
-              className="group flex justify-between items-center hover:bg-[var(--bg)] hover:cursor-pointer"
+              className={`group flex justify-between items-center ${ !addingToPlaylist? "hover:bg-[var(--bg)] " :""} "hover:cursor-pointer"`}
             >
               <div
                 className={`${currentSong?.name === song.name ? 'text-[var(--secondary)]' : 'text-red'} flex items-center cursor-pointer h-[40px]  w-[40%]   p-5 my-2 `}
@@ -110,14 +130,78 @@ export default function SongList({
               >
                 <div className="w-full truncate">{song.name}</div>
               </div>
-              <div className="hidden group-hover:flex w-[100px] justify-evenly items-center  p-2">
+              <div className="hidden group-hover:flex w-[100px] cursor-pointer justify-evenly items-center  p-2">
                 <LikeButton
                   song={song}
                   likedSongs={likedSongs}
                   refreshLikedSongs={refreshLikedSongs}
-                />
-                <MdPlaylistAdd size={25} />
+                        />
+<IoIosRemoveCircleOutline size={25} onClick={ ()=>{handleRemoveSongFromPlaylist(song,selectedPlaylist)}} />
               </div>
+             
+                    </div>
+                  ))}
+           </div>
+           </div> 
+ : (
+            <div>
+              {playlists.map((playlist, idx) => (
+                <div key={playlist.name} className='flex items-center justify-between w-[50%]' >
+                  <div onClick={() => { setSelectedPlaylist(playlist) }} className='cursor-pointer'>
+  {playlist.name}
+                  </div>
+                  <div onClick={() => { handleDeletePlaylist(playlist.name) }}>
+                  <FaTrash/>
+                  </div> 
+                </div>
+              ))}
+              <div onClick={toggleCreatePlaylist} className="bg-black">
+                create new
+              </div>
+            </div>
+          )
+        ) : (
+          (songType === 'fav' ? favSongs : songs).map((song, idx) => (
+            <div
+              key={song.path}
+              className={`group flex justify-between items-center ${addingToPlaylist? "" :"hover:bg-[var(--bg)] "} "hover:cursor-pointer"`}
+            >
+              <div
+                className={`${currentSong?.name === song.name ? 'text-[var(--secondary)]' : 'text-red'} ${addingToPlaylist?"pointer-events-none":""} flex items-center cursor-pointer h-[40px]  w-[40%]   p-5 my-2 `}
+                onClick={() => setCurrentSong(song)}
+              >
+                <div className="w-full truncate">{song.name}</div>
+              </div>
+              <div
+  className={`hidden ${addingToPlaylist ? "group-hover:hidden" : "group-hover:flex"} w-[100px] justify-evenly items-center p-2`}
+>
+  <LikeButton
+    song={song}
+    likedSongs={likedSongs}
+    refreshLikedSongs={refreshLikedSongs}
+  />
+  <MdPlaylistAdd
+    size={25}
+    onClick={() => {
+      setAddingToPlaylist(true);
+      setSongToAddInPlaylist(song);
+    }}
+  />
+</div>
+
+              <div
+                className={`${addingToPlaylist ? 'absolute' : 'hidden'} top-50 left-50 "`}
+              >
+                {songToAddInPlaylist && 
+                 <PlaylistPicker
+                  playlists={playlists}
+                  setAddingToPlaylist={setAddingToPlaylist}
+                  song={songToAddInPlaylist}
+                  refreshPlaylists={refreshPlaylists}
+                />
+
+                }
+                             </div>
             </div>
           ))
         )}

@@ -132,25 +132,40 @@ ipcMain.handle('create-playlist', async (event, name: string) => {
 ipcMain.handle('get-playlists', async () => {
   return getPlaylists(playlistPath);
 });
+
 ipcMain.handle(
   'add-to-playlist',
   async (event, song: SongType, ListName: string) => {
-    const playlists = await getPlaylists(playlistPath);
-    const playlist = playlists.find(s => s.name === ListName);
-    if (playlist.songs.some(s => s.path === song.path)) {
-      throw new error('song already exists');
-    }
-    playlist.songs.push(song);
-    savePlaylists(playlists, playlistPath);
-    return playlist;
+    try {
+      const playlists = await getPlaylists(playlistPath);
+      const playlist = playlists.find(s => s.name === ListName);
+
+      if (!playlist) {
+        console.error(`Playlist "${ListName}" not found`);
+      }
+
+      if (playlist.songs.some(s => s.path === song.path)) {
+        console.error('Song already exists');
+        return playlist;
+      }
+
+      playlist.songs.push(song);
+       savePlaylists(playlists, playlistPath);
+
+      return playlist;
+    } catch (err) {
+      console.error('Error in add-to-playlist handler:', err);
+      throw err;    }
+
   }
 );
+
 ipcMain.handle(
   'remove-song',
   async (event, song: SongType, playlistName: string) => {
     let playlists = await getPlaylists(playlistPath);
     const playlist = playlists.find(p => p.name === playlistName);
-    playlist.songs.filter(s => s.path === song.path);
+    playlist.songs=playlist.songs.filter(s => s.path !== song.path);
     savePlaylists(playlists, playlistPath);
     return playlists;
   }
@@ -158,7 +173,7 @@ ipcMain.handle(
 
 ipcMain.handle('delete-playlist', async (event, name: string) => {
   let playlists = await getPlaylists(playlistPath);
-  const newPlaylist = playlists.filter(p => p.name === name);
+  const newPlaylist = playlists.filter(p => p.name !== name);
   savePlaylists(newPlaylist, playlistPath);
   return newPlaylist;
 });
