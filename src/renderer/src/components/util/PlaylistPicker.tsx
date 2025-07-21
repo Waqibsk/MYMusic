@@ -35,27 +35,33 @@ export default function PlaylistPicker({
   
 }
   return (
-    <div className="flex flex-col w-[400px] ">
+    <div className="flex flex-col bg-[var(--bg)] p-4   w-[400px] ">
       <div
-        className=""
+        className=" flex justify-between py-2 cursor-pointer"
         onClick={() => {
           setAddingToPlaylist(false);
         }}
       >
         {' '}
+        <div>
+          Add to Playlist
+</div>
         <ImCross />
       </div>
-      <div className="bg-black">
+      <div className="">
         {playlists.map((playlist, idx) => (
-          <div key={playlist.name} className={`${isSelected(playlist.name)?"bg-red-900":"bg-black"} flex items-center `}onClick={() => { toggleSelectPlaylist(playlist.name) }}>
+          <div key={playlist.name} className={`${isSelected(playlist.name)?"bg-[var(--secondary)]":""} flex items-center rounded px-2 cursor-pointer m-2 `}onClick={() => { toggleSelectPlaylist(playlist.name) }}>
             <div>{playlist.name}</div>
          
           </div>
         ))}
       </div>
-      <button className="text-black bg-white" onClick={handleAddToPlaylist}>
-        add
+      <div className='flex justify-center m-2'>
+      <button className="text-black bg-white w-[30%] cursor-pointer" onClick={handleAddToPlaylist}>
+        Add
       </button>
-    </div>
+ 
+      </div>
+   </div>
   );
 }

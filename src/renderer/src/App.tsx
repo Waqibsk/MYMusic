@@ -87,14 +87,14 @@ const App = () => {
         <div className="absolute left-70  top-50">
           {openTheme ? <SelectTheme setTheme={setCurrentTheme} /> : <div></div>}
         </div>
-        <div className="  h-[658px] flex flex-col justify-between ">
+        <div className="  h-[658px] flex flex-col  justify-between ">
           <div className=" flex h-full justify-between w-full">
             <div className="flex flex-col m-2 w-full relative">
-              <div className="flex justify-between">
+              <div className=" flex justify-end">
                 {isSidebarOpen ? (
                   <div
                     onClick={handleLoadMusic}
-                    className="bg-[var(--bg)]  p-2 rounded"
+                    className="bg-[var(--bg)]  p-2 rounded mx-5"
                   >
                     <div className="flex items-center">
                       <FaRegFolderOpen />
@@ -119,7 +119,7 @@ const App = () => {
               <div
                 // className="mt-4 bg-[var(--bg)]/70 rounded transition delay-150 duration-300"
 
-                className={`absolute  top-10 right-0 h-[90%] w-full mt-2 overflow-auto  bg-[var(--bg)]/70 rounded-xl transition-transform duration-400 ease-in-out 
+                className={`absolute  top-10 right-0 h-[90%] w-[70%] mt-2 overflow-auto  bg-[var(--bg)]/70 rounded-xl transition-transform duration-400 ease-in-out 
     ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'}
   `}
               >
