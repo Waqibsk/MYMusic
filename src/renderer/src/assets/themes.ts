@@ -50,4 +50,16 @@ export const themes: Record<string, Theme> = {
     '--text': '#ffcc00',
     '--secondary': '#cc0000',
   },
+  jujutsuKaisenManga: {
+    name: 'Jujutsu Kaisen (Manga Style)',
+    coverImages: [
+      'https://i.pinimg.com/originals/26/c1/ae/26c1aec7cc110cc119e8507e32a15a52.jpg',
+    ],
+    bgImage:
+      "url('https://rare-gallery.com/thumbnail/395315-toge-inumaki-jujutsu-kaisen-4k-pc-wallpaper.jpg')",
+    '--primary': '#ffffff',
+    '--bg': '#0e0e0e',
+    '--text': '#00ffd5',
+    '--secondary': '#ff0055',
+  },
 };

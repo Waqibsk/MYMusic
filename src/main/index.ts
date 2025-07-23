@@ -150,13 +150,13 @@ ipcMain.handle(
       }
 
       playlist.songs.push(song);
-       savePlaylists(playlists, playlistPath);
+      savePlaylists(playlists, playlistPath);
 
       return playlist;
     } catch (err) {
       console.error('Error in add-to-playlist handler:', err);
-      throw err;    }
-
+      throw err;
+    }
   }
 );
 
@@ -165,7 +165,7 @@ ipcMain.handle(
   async (event, song: SongType, playlistName: string) => {
     let playlists = await getPlaylists(playlistPath);
     const playlist = playlists.find(p => p.name === playlistName);
-    playlist.songs=playlist.songs.filter(s => s.path !== song.path);
+    playlist.songs = playlist.songs.filter(s => s.path !== song.path);
     savePlaylists(playlists, playlistPath);
     return playlists;
   }

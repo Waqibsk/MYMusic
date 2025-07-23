@@ -19,7 +19,7 @@ export default function LikeButton({
   };
 
   return (
-    <div onClick={toggleLike} className='cursor-pointer'>
+    <div onClick={toggleLike} className="cursor-pointer">
       {isliked ? <FaHeart size={19} /> : <FaRegHeart />}
     </div>
   );

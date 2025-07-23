@@ -11,29 +11,29 @@ export default function PlaylistPicker({
   song,
 }: {
   playlists: PlaylistType[];
-  refreshPlaylists:refreshPlaylists,
+  refreshPlaylists: refreshPlaylists;
   setAddingToPlaylist: React.Dispatch<SetStateAction<boolean>>;
-  song: SongType ;
+  song: SongType;
 }) {
-  
   const [selectedPlaylists, setSelectedPlaylists] = useState<string[]>([]);
   const handleAddToPlaylist = async () => {
     for (const playlist of selectedPlaylists) {
       await window.playlistAPI.addToPlaylist(song, playlist);
-
- }
-     refreshPlaylists();
+    }
+    refreshPlaylists();
     setAddingToPlaylist(false);
     return;
   };
-  const isSelected = (playlistName) => {
+  const isSelected = playlistName => {
     return selectedPlaylists.includes(playlistName);
-  }
-  const toggleSelectPlaylist = ( playlistName:string) => {
-
-    setSelectedPlaylists((prev) => prev.includes(playlistName) ? prev.filter(name => name !== playlistName) : [...prev, playlistName]);
-  
-}
+  };
+  const toggleSelectPlaylist = (playlistName: string) => {
+    setSelectedPlaylists(prev =>
+      prev.includes(playlistName)
+        ? prev.filter(name => name !== playlistName)
+        : [...prev, playlistName]
+    );
+  };
   return (
     <div className="flex flex-col bg-[var(--bg)] p-4   w-[400px] ">
       <div
@@ -43,25 +43,30 @@ export default function PlaylistPicker({
         }}
       >
         {' '}
-        <div>
-          Add to Playlist
-</div>
+        <div>Add to Playlist</div>
         <ImCross />
       </div>
       <div className="">
         {playlists.map((playlist, idx) => (
-          <div key={playlist.name} className={`${isSelected(playlist.name)?"bg-[var(--secondary)]":""} flex items-center rounded px-2 cursor-pointer m-2 `}onClick={() => { toggleSelectPlaylist(playlist.name) }}>
+          <div
+            key={playlist.name}
+            className={`${isSelected(playlist.name) ? 'bg-[var(--secondary)]' : ''} flex items-center rounded px-2 cursor-pointer m-2 `}
+            onClick={() => {
+              toggleSelectPlaylist(playlist.name);
+            }}
+          >
             <div>{playlist.name}</div>
-         
           </div>
         ))}
       </div>
-      <div className='flex justify-center m-2'>
-      <button className="text-black bg-white w-[30%] cursor-pointer" onClick={handleAddToPlaylist}>
-        Add
-      </button>
- 
+      <div className="flex justify-center m-2">
+        <button
+          className="text-black bg-white w-[30%] cursor-pointer"
+          onClick={handleAddToPlaylist}
+        >
+          Add
+        </button>
       </div>
-   </div>
+    </div>
   );
 }
