@@ -14,8 +14,9 @@ import { getRandomWithOneExclusion } from './utils/functions';
 import SongList from './components/SongList';
 import CreatePlaylist from './components/util/CreatePlaylist';
 const App = () => {
-  const [currentTheme, setCurrentTheme] = useState('spiderman');
-  const [theme, setTheme] = useState<Theme>(themes[currentTheme]);
+  const [currentTheme, setCurrentTheme] = useState('batman');
+  const [themeType, setThemeType] = useState("all");
+  const [theme, setTheme] = useState<Theme>(themes[themeType==="all"?"superheroes":themeType][currentTheme]);
   const [coverImage, setCoverImage] = useState('');
   const [openTheme, setOpenTheme] = useState<boolean>(false);
   const [currentSong, setCurrentSong] = useState<SongType>();
@@ -68,14 +69,18 @@ const App = () => {
   };
 
   useEffect(() => {
-    setTheme(themes[currentTheme]);
-    const randomIndex = Math.floor(
-      Math.random() * themes[currentTheme].coverImages.length
-    );
-    setCoverImage(themes[currentTheme].coverImages[randomIndex]);
-    useTheme(currentTheme);
+setTheme(themes[themeType==="all"?"superheroes":themeType][currentTheme])
+    // const randomIndex = Math.floor(
+    //   Math.random() * theme.coverImages.length
+    // );
+    // setCoverImage(theme.coverImages[randomIndex]);
+
+    useTheme(currentTheme,themeType==="all"?"superheroes":themeType);
   }, [currentTheme]);
+
+
   return (
+
     <>
       <div
         className="min-h-screen bg-cover  text-[var(--text)] bg-center relative"
@@ -85,7 +90,7 @@ const App = () => {
           <NavBar ToggleSelectTheme={ToggleSelectTheme} />
         </div>
         <div className="absolute left-70  top-50">
-          {openTheme ? <SelectTheme setTheme={setCurrentTheme} /> : <div></div>}
+          {openTheme ? <SelectTheme setTheme={setCurrentTheme} themeType={themeType } setThemeType={setThemeType} /> : <div></div>}
         </div>
         <div className="  h-[658px] flex flex-col  justify-between ">
           <div className=" flex h-full justify-between w-full">

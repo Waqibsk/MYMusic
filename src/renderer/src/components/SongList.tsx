@@ -95,19 +95,19 @@ export default function SongList({
       </div>
       <div className="flex items-center">
         <div
-          className="m-2 p-2 bg-[var(--primary)] rounded-xl cursor-pointer"
+          className="m-2 py-2 px-4  bg-[var(--primary)] rounded-xl cursor-pointer"
           onClick={() => handleTypeChange('all')}
         >
           All
         </div>
         <div
-          className="m-2 p-2 bg-[var(--primary)]  rounded-xl  cursor-pointer"
+          className="m-2 py-2 px-4 bg-[var(--primary)]  rounded-xl  cursor-pointer"
           onClick={() => handleTypeChange('fav')}
         >
           Favourites
         </div>
         <div
-          className="m-2 p-2 bg-[var(--primary)]  rounded-xl  cursor-pointer"
+          className="m-2 py-2 px-4 bg-[var(--primary)]  rounded-xl  cursor-pointer"
           onClick={() => {
             handleTypeChange('playlist');
           }}
