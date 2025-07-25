@@ -1,6 +1,6 @@
-# musicplayer
+# MYMusic
 
-An Electron application with React and TypeScript
+will document later
 
 ## Recommended IDE Setup
 
