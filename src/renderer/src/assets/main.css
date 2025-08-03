@@ -2,6 +2,6 @@
 @import 'tailwindcss';
 
 body {
-  overflow-x: hidden;
+  overflow: hidden;
   min-height: 100%;
 }

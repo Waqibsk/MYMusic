@@ -136,7 +136,7 @@ setTheme(themes[themeType==="all"?"superheroes":themeType][currentTheme])
                       currentSong={currentSong}
                     />
                   ) : (
-                    <div className="bg-black/70 w-full  flex justify-center items-center h-[500px]">
+                    <div className=" w-full  flex justify-center items-center h-[500px]">
                       <div className="flex flex-col justify-center ">
                         <FaFolder size={80} onClick={handleLoadMusic} />
                         <div>

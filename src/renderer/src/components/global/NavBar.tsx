@@ -7,7 +7,7 @@ export default function NavBar({
 }) {
   return (
     <div className="text-[var(--text)] flex justify-end">
-      <div onClick={ToggleSelectTheme} className="cursor-pointer p-2">
+      <div onClick={ToggleSelectTheme} className="cursor-pointer bg-[var(--bg)]  rounded p-2 m-2">
         Themes
       </div>
     </div>

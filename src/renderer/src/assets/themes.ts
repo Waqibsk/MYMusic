@@ -65,5 +65,17 @@ export const themes: Record<string, Record<string, Theme>> = {
       '--text': '#00ffd5',
       '--secondary': '#ff0055',
     },
+    soloLevelingAnime: {
+  name: 'Solo Leveling (Anime Style)',
+  coverImages: [
+    'https://i.pinimg.com/originals/16/38/bf/1638bf1aa2b3ea746152f1a6a6d593c5.jpg',
+  ],
+  bgImage: "url('https://res.cloudinary.com/ddwbmogxb/image/upload/v1754197110/solo_iyjt3m.webp')",
+  '--primary': '#ffffff',
+  '--bg': '#0d0d0d',
+  '--text': '#00bfff',
+  '--secondary': '#ff4500',
+},
+
   },
 };

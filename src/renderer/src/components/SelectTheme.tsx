@@ -10,7 +10,7 @@ export default function SelectTheme({ setTheme ,themeType,setThemeType}: { setTh
   };
 
   return (
-    <div className="bg-[var(--bg)]/90 w-[50%] fixed rounded text-[var(--text)] z-50">
+    <div className="bg-[var(--bg)]/90 w-[50%] h-[200px] overflow-y-scroll fixed rounded text-[var(--text)] z-50">
       <div className="flex flex-col">
         <div className="flex ">
           <div className="  bg-[var(--primary)]/90 py-2 px-4 m-2 rounded-xl cursor-pointer " onClick={() => {
