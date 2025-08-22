@@ -147,12 +147,12 @@ export default function SongList({
                     className={`group flex justify-between items-center ${!addingToPlaylist ? 'hover:bg-[var(--bg)] ' : ''} "hover:cursor-pointer"`}
                   >
                     <div
-                      className={`${currentSong?.name === song.name ? 'text-[var(--secondary)]' : 'text-red'} flex items-center cursor-pointer h-[40px]  w-[40%]   p-5 my-2 `}
+                      className={`${currentSong?.name === song.name ? 'text-[var(--secondary)]' : 'text-red'} flex items-center cursor-pointer h-[40px]  w-[70%]   p-5 my-2`}
                       onClick={() => setCurrentSong(song)}
                     >
-                      <div className="truncate">{song.name}</div>
+                      <div className="truncate ">{song.name}</div>
                     </div>
-                    <div className="hidden group-hover:flex w-[10%] cursor-pointer justify-evenly items-center  p-2">
+                    <div className="hidden group-hover:flex  cursor-pointer justify-between w-[20%] items-center  p-2">
                       <LikeButton
                         song={song}
                         likedSongs={likedSongs}
@@ -174,13 +174,13 @@ export default function SongList({
               {playlists.map((playlist, idx) => (
                 <div
                   key={playlist.name}
-                  className="flex items-center my-2 justify-between w-[50%]"
+                  className="flex items-center my-2 justify-between w-full"
                 >
                   <div
                     onClick={() => {
                       setSelectedPlaylist(playlist);
                     }}
-                    className="cursor-pointer"
+                    className="cursor-pointer "
                   >
                     {playlist.name}
                   </div>
@@ -208,7 +208,7 @@ export default function SongList({
               className={`group flex justify-between items-center ${addingToPlaylist ? '' : 'hover:bg-[var(--bg)] '} "hover:cursor-pointer"`}
             >
               <div
-                className={`${currentSong?.name === song.name ? 'text-[var(--secondary)]' : 'text-red'} ${addingToPlaylist ? 'pointer-events-none' : ''} flex items-center cursor-pointer h-[40px]  w-[40%]   p-5 my-2 `}
+                className={`${currentSong?.name === song.name ? 'text-[var(--secondary)]' : 'text-red'} ${addingToPlaylist ? 'pointer-events-none' : ''} flex items-center cursor-pointer h-[40px]  w-[80%]   p-5 my-2 `}
                 onClick={() => setCurrentSong(song)}
               >
                 <div className="w-full truncate">{song.name}</div>
