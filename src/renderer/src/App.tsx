@@ -124,7 +124,7 @@ setTheme(themes[themeType==="all"?"superheroes":themeType][currentTheme])
               <div
                 // className="mt-4 bg-[var(--bg)]/70 rounded transition delay-150 duration-300"
 
-                className={`absolute  top-10 right-0 h-[90%] w-[70%] mt-2 overflow-auto  bg-[var(--bg)]/70 rounded-xl transition-transform duration-400 ease-in-out 
+                className={`absolute  top-10 right-0 h-[90%] w-[30%] mt-2 overflow-auto  bg-[var(--bg)]/70 rounded-xl transition-transform duration-400 ease-in-out 
     ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'}
   `}
               >
