@@ -86,7 +86,7 @@ export default function SongList({
   return (
     <div className={``}>
       <div
-        className={`${isCreatingPlaylist ? 'absolute' : 'hidden'} top-40 left-50 "`}
+        className={`${isCreatingPlaylist ? 'absolute' : 'hidden'} top-40 left-10 "`}
       >
         <CreatePlaylist
           refreshPlaylists={refreshPlaylists}
@@ -123,7 +123,7 @@ export default function SongList({
 
               <div
                 onClick={toggleCreatePlaylist}
-                className="bg-black w-[10%] text-center rounded-xl cursor-pointer p-2 my-2"
+                className="bg-black w-[10%] text-center rounded cursor-pointer p-2 m-2"
               >
                 Create
               </div>
@@ -195,7 +195,7 @@ export default function SongList({
               ))}
               <div
                 onClick={toggleCreatePlaylist}
-                className="bg-black w-[15%] text-center p-2 rounded-xl cursor-pointer my-2"
+                className="bg-black w-[30%] text-center p-2 rounded-xl cursor-pointer my-2"
               >
                 Create
               </div>
@@ -232,7 +232,7 @@ export default function SongList({
               </div>
 
               <div
-                className={`${addingToPlaylist ? 'absolute' : 'hidden'} top-50 left-50 "`}
+                className={`${addingToPlaylist ? 'absolute' : 'hidden'} top-50 right-30 "`}
               >
                 {songToAddInPlaylist && (
                   <PlaylistPicker

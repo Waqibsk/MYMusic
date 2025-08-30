@@ -16,7 +16,8 @@ export default function CreatePlaylist({
     setIsCreatingPlaylist(false);
   };
   return (
-    <div className="flex flex-col w-[400px]  z-10 bg-[var(--bg)]">
+    <div className="flex flex-col w-[300px]  z-10 bg-[var(--bg)]">
+      
       <div className="flex justify-between p-2 cursor-pointer ">
         <div>Create Your Own Playlist</div>
         <ImCross

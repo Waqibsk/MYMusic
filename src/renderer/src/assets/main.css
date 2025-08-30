@@ -5,3 +5,8 @@ body {
   overflow: hidden;
   min-height: 100%;
 }
+
+*{
+    scrollbar-width: thin;              
+  scrollbar-color: #ffffff #000000; 
+}

@@ -35,7 +35,7 @@ export default function PlaylistPicker({
     );
   };
   return (
-    <div className="flex flex-col bg-[var(--bg)] p-4   w-[400px] ">
+    <div className="flex flex-col bg-[var(--bg)] p-4   w-[250px] ">
       <div
         className=" flex justify-between py-2 cursor-pointer"
         onClick={() => {
