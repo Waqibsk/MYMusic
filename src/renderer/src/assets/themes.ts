@@ -12,6 +12,18 @@ export const themes: Record<string, Record<string, Theme>> = {
       '--text': '#ffffff',
       '--secondary': '#ffcc00',
     },
+    flash: {
+  name: 'Flash',
+  coverImages: ['https://wallpapercave.com/wp/wp1828597.jpg'],
+  bgImage:
+    "url('https://wallpapers.com/images/high/the-flash-movie-cinematic-shot-ynvoqnvf59aumv27.webp')",
+
+  '--primary': '#ff0000',
+  '--bg': '#1a0000',        
+  '--text': '#ffffff',      
+  '--secondary': '#ffcc00', 
+},
+
     spiderman: {
       name: 'Spider-Man',
       coverImages: ['https://wallpaperaccess.com/full/88382.jpg'],
